@@ -25,13 +25,6 @@ namespace TimelineAssistant.Extensions
 
         public static bool DisplayYearOnly(this string input)
         {
-            DateTime dateTimeInput;
-            DateTime.TryParse(input, out dateTimeInput);
-            if (dateTimeInput != new DateTime())
-            {
-                return false;
-            }
-
             int yearInput;
             int.TryParse(input, out yearInput);
             if (yearInput > 0)
