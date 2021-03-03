@@ -22,5 +22,17 @@ namespace TimelineAssistant.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Timeline.xlsx")]
+        public string ExcelFileName {
+            get {
+                return ((string)(this["ExcelFileName"]));
+            }
+            set {
+                this["ExcelFileName"] = value;
+            }
+        }
     }
 }

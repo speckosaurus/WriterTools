@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Data\EventType.cs" />
     <Compile Include="Extensions\DateExtension.cs" />
+    <Compile Include="Extensions\FileExtensions.cs" />
     <Compile Include="MainView.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -44,10 +44,14 @@ namespace TimelineAssistant
             this.filterPanel = new System.Windows.Forms.Panel();
             this.filterComboBox = new System.Windows.Forms.ComboBox();
             this.filterLabel = new System.Windows.Forms.Label();
+            this.filePanel = new System.Windows.Forms.Panel();
+            this.fileComboBox = new System.Windows.Forms.ComboBox();
+            this.fileLabel = new System.Windows.Forms.Label();
             this.searchPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.agesGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.eventsGridView)).BeginInit();
             this.filterPanel.SuspendLayout();
+            this.filePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // searchLabel
@@ -173,11 +177,40 @@ namespace TimelineAssistant
             this.filterLabel.TabIndex = 0;
             this.filterLabel.Text = "Filter Event Type";
             // 
+            // filePanel
+            // 
+            this.filePanel.Controls.Add(this.fileComboBox);
+            this.filePanel.Controls.Add(this.fileLabel);
+            this.filePanel.Location = new System.Drawing.Point(519, 13);
+            this.filePanel.Name = "filePanel";
+            this.filePanel.Size = new System.Drawing.Size(395, 75);
+            this.filePanel.TabIndex = 11;
+            // 
+            // fileComboBox
+            // 
+            this.fileComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.fileComboBox.FormattingEnabled = true;
+            this.fileComboBox.Location = new System.Drawing.Point(98, 28);
+            this.fileComboBox.Name = "fileComboBox";
+            this.fileComboBox.Size = new System.Drawing.Size(121, 24);
+            this.fileComboBox.TabIndex = 1;
+            this.fileComboBox.SelectedIndexChanged += new System.EventHandler(this.fileComboBox_SelectedIndexChanged);
+            // 
+            // fileLabel
+            // 
+            this.fileLabel.AutoSize = true;
+            this.fileLabel.Location = new System.Drawing.Point(10, 28);
+            this.fileLabel.Name = "fileLabel";
+            this.fileLabel.Size = new System.Drawing.Size(85, 17);
+            this.fileLabel.TabIndex = 0;
+            this.fileLabel.Text = "Select a File";
+            // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(929, 800);
+            this.Controls.Add(this.filePanel);
             this.Controls.Add(this.filterPanel);
             this.Controls.Add(this.reloadFileButton);
             this.Controls.Add(this.openFileButton);
@@ -192,6 +225,8 @@ namespace TimelineAssistant
             ((System.ComponentModel.ISupportInitialize)(this.eventsGridView)).EndInit();
             this.filterPanel.ResumeLayout(false);
             this.filterPanel.PerformLayout();
+            this.filePanel.ResumeLayout(false);
+            this.filePanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -218,6 +253,9 @@ namespace TimelineAssistant
         private Panel filterPanel;
         private Label filterLabel;
         private ComboBox filterComboBox;
+        private Panel filePanel;
+        private ComboBox fileComboBox;
+        private Label fileLabel;
     }
 }
 

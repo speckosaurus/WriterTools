@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using TimelineAssistant.Data;
 using TimelineAssistant.Extensions;
 using TimelineAssistant.Models;
+using TimelineAssistant.Properties;
 
 namespace TimelineAssistant
 {
@@ -22,6 +23,7 @@ namespace TimelineAssistant
             InitializeComponent();
             CenterToScreen();
             SetupDataGrids();
+            LoadFileComboBox();
             LoadEventsFromExcel();
             SetEventsView();
             LoadCharacters();
@@ -39,13 +41,39 @@ namespace TimelineAssistant
             eventsGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
+        private void LoadFileComboBox()
+        {
+            try
+            {
+                fileComboBox.SelectedIndexChanged -= new EventHandler(fileComboBox_SelectedIndexChanged);
+
+                var currentDirectory = Directory.GetCurrentDirectory();
+                string[] files = Directory.GetFiles(currentDirectory, "*.xlsx");
+
+                List<string> fileNames = new List<string>();
+                foreach (string file in files)
+                {
+                    fileNames.Add(Path.GetFileName(file).RemoveExcelExtension());
+                }
+
+                fileComboBox.DataSource = fileNames;
+                fileComboBox.SelectedItem = Settings.Default.ExcelFileName.RemoveExcelExtension();
+
+                fileComboBox.SelectedIndexChanged += new EventHandler(fileComboBox_SelectedIndexChanged);
+            }
+            catch (Exception ex)
+            {
+                filePanel.Enabled = false;
+            }
+        }
+
         private void LoadEventsFromExcel()
         {
             try
             {
                 events = new List<Event>();
 
-                using (var package = new ExcelPackage(new FileInfo("Timeline.xlsx")))
+                using (var package = new ExcelPackage(new FileInfo(Settings.Default.ExcelFileName)))
                 {
                     var workSheet = package.Workbook.Worksheets.First();
 
@@ -215,7 +243,7 @@ namespace TimelineAssistant
         {
             try
             {
-                System.Diagnostics.Process.Start("Timeline.xlsx");
+                System.Diagnostics.Process.Start(Settings.Default.ExcelFileName);
             }
             catch (Exception ex)
             {
@@ -225,13 +253,33 @@ namespace TimelineAssistant
 
         private void reloadFileButton_Click(object sender, EventArgs e)
         {
-            LoadEventsFromExcel();
-            LoadCharacters();
-            SetEventsView();
+            ReloadData();
         }
 
         private void filterComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            SetEventsView();
+        }
+
+        private void fileComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedFileName = fileComboBox.SelectedItem.ToString();
+
+            if (selectedFileName == Settings.Default.ExcelFileName.RemoveExcelExtension())
+            {
+                return;
+            }
+
+            Settings.Default.ExcelFileName = $"{selectedFileName.AppendExcelExtension()}";
+            Settings.Default.Save();
+
+            ReloadData();
+        }
+
+        private void ReloadData()
+        {
+            LoadEventsFromExcel();
+            LoadCharacters();
             SetEventsView();
         }
     }
