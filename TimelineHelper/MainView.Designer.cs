@@ -41,9 +41,13 @@ namespace TimelineAssistant
             this.eventsGridView = new System.Windows.Forms.DataGridView();
             this.openFileButton = new System.Windows.Forms.Button();
             this.reloadFileButton = new System.Windows.Forms.Button();
+            this.filterPanel = new System.Windows.Forms.Panel();
+            this.filterComboBox = new System.Windows.Forms.ComboBox();
+            this.filterLabel = new System.Windows.Forms.Label();
             this.searchPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.agesGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.eventsGridView)).BeginInit();
+            this.filterPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // searchLabel
@@ -84,8 +88,6 @@ namespace TimelineAssistant
             // 
             // agesGridView
             // 
-            this.agesGridView.Columns.Add("Name", "Name");
-            this.agesGridView.Columns.Add("Age", "Age");
             this.agesGridView.AllowUserToAddRows = false;
             this.agesGridView.AllowUserToDeleteRows = false;
             this.agesGridView.AllowUserToOrderColumns = true;
@@ -105,9 +107,6 @@ namespace TimelineAssistant
             // 
             // eventsGridView
             // 
-            this.eventsGridView.Columns.Add("Date", "Date");
-            this.eventsGridView.Columns.Add("EventType", "Type");
-            this.eventsGridView.Columns.Add("Description", "Event");
             this.eventsGridView.AllowUserToAddRows = false;
             this.eventsGridView.AllowUserToDeleteRows = false;
             this.eventsGridView.AllowUserToOrderColumns = true;
@@ -124,8 +123,6 @@ namespace TimelineAssistant
             this.eventsGridView.Size = new System.Drawing.Size(500, 598);
             this.eventsGridView.TabIndex = 8;
             this.eventsGridView.SelectionChanged += new System.EventHandler(this.eventsGridView_SelectedIndexChanged);
-            this.eventsGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            this.eventsGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             // 
             // openFileButton
             // 
@@ -147,11 +144,41 @@ namespace TimelineAssistant
             this.reloadFileButton.UseVisualStyleBackColor = true;
             this.reloadFileButton.Click += new System.EventHandler(this.reloadFileButton_Click);
             // 
+            // filterPanel
+            // 
+            this.filterPanel.Controls.Add(this.filterComboBox);
+            this.filterPanel.Controls.Add(this.filterLabel);
+            this.filterPanel.Location = new System.Drawing.Point(15, 12);
+            this.filterPanel.Name = "filterPanel";
+            this.filterPanel.Size = new System.Drawing.Size(498, 76);
+            this.filterPanel.TabIndex = 0;
+            // 
+            // filterComboBox
+            // 
+            this.filterComboBox.DataSource = Enum.GetValues(typeof(EventType));
+            this.filterComboBox.FormattingEnabled = true;
+            this.filterComboBox.Location = new System.Drawing.Point(126, 29);
+            this.filterComboBox.Name = "filterComboBox";
+            this.filterComboBox.Size = new System.Drawing.Size(121, 24);
+            this.filterComboBox.TabIndex = 1;
+            this.filterComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.filterComboBox.SelectedIndexChanged += new System.EventHandler(this.filterComboBox_SelectedIndexChanged);
+            // 
+            // filterLabel
+            // 
+            this.filterLabel.AutoSize = true;
+            this.filterLabel.Location = new System.Drawing.Point(4, 29);
+            this.filterLabel.Name = "filterLabel";
+            this.filterLabel.Size = new System.Drawing.Size(115, 17);
+            this.filterLabel.TabIndex = 0;
+            this.filterLabel.Text = "Filter Event Type";
+            // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(929, 800);
+            this.Controls.Add(this.filterPanel);
             this.Controls.Add(this.reloadFileButton);
             this.Controls.Add(this.openFileButton);
             this.Controls.Add(this.eventsGridView);
@@ -163,6 +190,8 @@ namespace TimelineAssistant
             this.searchPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.agesGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.eventsGridView)).EndInit();
+            this.filterPanel.ResumeLayout(false);
+            this.filterPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -186,6 +215,9 @@ namespace TimelineAssistant
         private DataGridView eventsGridView;
         private Button openFileButton;
         private Button reloadFileButton;
+        private Panel filterPanel;
+        private Label filterLabel;
+        private ComboBox filterComboBox;
     }
 }
 

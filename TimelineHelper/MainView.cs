@@ -21,9 +21,22 @@ namespace TimelineAssistant
         {
             InitializeComponent();
             CenterToScreen();
+            SetupDataGrids();
             LoadEventsFromExcel();
             SetEventsView();
             LoadCharacters();
+        }
+
+        private void SetupDataGrids()
+        {
+            agesGridView.Columns.Add("Name", "Name");
+            agesGridView.Columns.Add("Age", "Age");
+
+            eventsGridView.Columns.Add("Date", "Date");
+            eventsGridView.Columns.Add("EventType", "Type");
+            eventsGridView.Columns.Add("Description", "Event");
+            eventsGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            eventsGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
         private void LoadEventsFromExcel()
@@ -60,7 +73,7 @@ namespace TimelineAssistant
             }
             catch (Exception ex)
             {
-                ShowErrorMessage(ex.Message);
+                ShowErrorMessage($"Error encountered when loading the Excel file:\n\n{ex.Message}");
                 Environment.Exit(0);
             }
         }
@@ -72,17 +85,30 @@ namespace TimelineAssistant
                 eventsGridView.ClearSelection();
                 eventsGridView.Rows.Clear();
 
-                foreach (var eventItem in events)
+                EventType selectedType = (EventType)(filterComboBox.SelectedItem ?? 0);
+
+                var filteredEvents = events;
+                if (selectedType != EventType.Any)
+                {
+                    filteredEvents = filteredEvents.Where(x => x.Type == selectedType).ToList();
+                }
+
+                foreach (var eventItem in filteredEvents)
                 {
                     eventsGridView.Rows.Add(eventItem.Date.FormatDate(eventItem.DisplayYearOnly), eventItem.Type, eventItem.Description);
                 }
 
                 eventsGridView.Columns[2].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
                 eventsGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+                foreach (DataGridViewBand band in eventsGridView.Columns)
+                {
+                    band.ReadOnly = true;
+                }
             }
             catch (Exception ex)
             {
-                ShowErrorMessage(ex.Message);
+                ShowErrorMessage($"Error encountered when updating the Events view:\n\n{ex.Message}");
             }
         }
 
@@ -112,7 +138,7 @@ namespace TimelineAssistant
             }
             catch (Exception ex)
             {
-                ShowErrorMessage(ex.Message);
+                ShowErrorMessage($"Error encountered when loading Characters:\n\n{ex.Message}");
             }
         }
 
@@ -147,7 +173,7 @@ namespace TimelineAssistant
             }
             catch (Exception ex)
             {
-                ShowErrorMessage(ex.Message);
+                ShowErrorMessage($"Error encountered when calculating Character ages:\n\n{ex.Message}");
             }
         }
 
@@ -193,7 +219,7 @@ namespace TimelineAssistant
             }
             catch (Exception ex)
             {
-                ShowErrorMessage(ex.Message);
+                ShowErrorMessage($"Error encountered when attempting to open Excel file:\n\n{ex.Message}");
             }
         }
 
@@ -201,6 +227,11 @@ namespace TimelineAssistant
         {
             LoadEventsFromExcel();
             LoadCharacters();
+            SetEventsView();
+        }
+
+        private void filterComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
             SetEventsView();
         }
     }
