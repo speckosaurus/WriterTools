@@ -32,6 +32,7 @@ namespace TimelineAssistant.Views
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
             this.searchLabel = new System.Windows.Forms.Label();
             this.searchYear = new System.Windows.Forms.TextBox();
             this.searchButton = new System.Windows.Forms.Button();
@@ -158,12 +159,12 @@ namespace TimelineAssistant.Views
             // 
             // filterComboBox
             // 
+            this.filterComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.filterComboBox.FormattingEnabled = true;
             this.filterComboBox.Location = new System.Drawing.Point(126, 29);
             this.filterComboBox.Name = "filterComboBox";
             this.filterComboBox.Size = new System.Drawing.Size(121, 24);
             this.filterComboBox.TabIndex = 1;
-            this.filterComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             // 
             // filterLabel
             // 
@@ -214,6 +215,7 @@ namespace TimelineAssistant.Views
             this.Controls.Add(this.eventsGridView);
             this.Controls.Add(this.agesGridView);
             this.Controls.Add(this.searchPanel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainView";
             this.Text = "Timeline Assistant";
             this.searchPanel.ResumeLayout(false);

@@ -15,32 +15,32 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_47E3762F8D5E48C6ADBB1408B8B0DD15"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_71C606B0F84356925F7E68324E77B6BA"
-        "OwnerKey" = "8:_F4DAC1F920D74CDB9C4072E0CDBD70A7"
+        "OwnerKey" = "8:_47E3762F8D5E48C6ADBB1408B8B0DD15"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_7D7B447E7E58FA1DC2492409B66DDB47"
-        "OwnerKey" = "8:_F4DAC1F920D74CDB9C4072E0CDBD70A7"
+        "OwnerKey" = "8:_47E3762F8D5E48C6ADBB1408B8B0DD15"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_C8DBE5653FC6D698D110CEFBCF3E0C5E"
-        "OwnerKey" = "8:_F4DAC1F920D74CDB9C4072E0CDBD70A7"
+        "OwnerKey" = "8:_47E3762F8D5E48C6ADBB1408B8B0DD15"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_E739347C9CE8CAD7CAEDD808F60E0162"
-        "OwnerKey" = "8:_F4DAC1F920D74CDB9C4072E0CDBD70A7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F4DAC1F920D74CDB9C4072E0CDBD70A7"
-        "OwnerKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_47E3762F8D5E48C6ADBB1408B8B0DD15"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -58,13 +58,19 @@
         "Entry"
         {
         "MsmKey" = "8:_FC232D1E5E9F4826015830A7D1F692AF"
-        "OwnerKey" = "8:_F4DAC1F920D74CDB9C4072E0CDBD70A7"
+        "OwnerKey" = "8:_47E3762F8D5E48C6ADBB1408B8B0DD15"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F4DAC1F920D74CDB9C4072E0CDBD70A7"
+        "OwnerKey" = "8:_E739347C9CE8CAD7CAEDD808F60E0162"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_47E3762F8D5E48C6ADBB1408B8B0DD15"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -89,12 +95,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_71C606B0F84356925F7E68324E77B6BA"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E739347C9CE8CAD7CAEDD808F60E0162"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -122,6 +122,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -146,6 +154,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -360,7 +376,7 @@
             "{1525181F-901A-416C-8A58-119130FE478E}:_303ABD90770446CDBB1E6D2BCDDDBFD2"
             {
             "Name" = "8:#1919"
-            "AlwaysCreate" = "11:FALSE"
+            "AlwaysCreate" = "11:TRUE"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Property" = "8:ProgramMenuFolder"
@@ -383,7 +399,7 @@
             "{1525181F-901A-416C-8A58-119130FE478E}:_C123786A6AA84428BBB352FD034B3EF7"
             {
             "Name" = "8:#1916"
-            "AlwaysCreate" = "11:FALSE"
+            "AlwaysCreate" = "11:TRUE"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Property" = "8:DesktopFolder"
@@ -408,7 +424,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:TimelineAssistant"
         "ProductCode" = "8:{B8FFC6AD-C251-41C5-A088-949309CC31F8}"
-        "PackageCode" = "8:{5E6BE7F2-DC8B-4882-B5BB-A2C94955B992}"
+        "PackageCode" = "8:{CC11A19E-C470-4517-932D-7DF6EBB8B991}"
         "UpgradeCode" = "8:{DA6C1DA1-E453-4C83-BE16-68039BBE4812}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -416,7 +432,7 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:FandomFuel"
+        "Manufacturer" = "8:Fandom Fuel"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:TimelineAssistantInstaller"
@@ -528,7 +544,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_1ADD8BF474D64D2E9E135CE58330EE0E"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_AE52C766253A4D9F99F0D8F4C2E962B0"
             {
             "Name" = "8:Timeline Assistant"
             "Arguments" = "8:"
@@ -941,7 +957,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F4DAC1F920D74CDB9C4072E0CDBD70A7"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_47E3762F8D5E48C6ADBB1408B8B0DD15"
             {
             "SourcePath" = "8:..\\TimelineHelper\\obj\\Debug\\TimelineAssistant.exe"
             "TargetName" = "8:"
