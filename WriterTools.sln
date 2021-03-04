@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimelineAssistant", "TimelineHelper\TimelineAssistant.csproj", "{4B085D19-3F1D-4072-9B0D-C83F67A93E53}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TimelineAssistantInstaller", "TimelineAssistantInstaller\TimelineAssistantInstaller.vdproj", "{0B31FC8F-1492-43A2-9287-96C29D5775BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{4B085D19-3F1D-4072-9B0D-C83F67A93E53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B085D19-3F1D-4072-9B0D-C83F67A93E53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B085D19-3F1D-4072-9B0D-C83F67A93E53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B31FC8F-1492-43A2-9287-96C29D5775BB}.Debug|Any CPU.ActiveCfg = Debug
+		{0B31FC8F-1492-43A2-9287-96C29D5775BB}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
