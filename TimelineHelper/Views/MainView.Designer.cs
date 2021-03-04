@@ -1,9 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.Windows.Forms;
 using TimelineAssistant.Data;
 
-namespace TimelineAssistant
+namespace TimelineAssistant.Views
 {
     partial class MainView
     {
@@ -159,14 +158,12 @@ namespace TimelineAssistant
             // 
             // filterComboBox
             // 
-            this.filterComboBox.DataSource = Enum.GetValues(typeof(EventType));
             this.filterComboBox.FormattingEnabled = true;
             this.filterComboBox.Location = new System.Drawing.Point(126, 29);
             this.filterComboBox.Name = "filterComboBox";
             this.filterComboBox.Size = new System.Drawing.Size(121, 24);
             this.filterComboBox.TabIndex = 1;
             this.filterComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            this.filterComboBox.SelectedIndexChanged += new System.EventHandler(this.filterComboBox_SelectedIndexChanged);
             // 
             // filterLabel
             // 

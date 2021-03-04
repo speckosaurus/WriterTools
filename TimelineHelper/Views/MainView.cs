@@ -1,32 +1,87 @@
-﻿using OfficeOpenXml;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using TimelineAssistant.Controllers;
 using TimelineAssistant.Data;
 using TimelineAssistant.Extensions;
 using TimelineAssistant.Models;
 using TimelineAssistant.Properties;
 
-namespace TimelineAssistant
+namespace TimelineAssistant.Views
 {
-    public partial class MainView : Form
+    public partial class MainView : Form, IView
     {
-        private List<Event> events;
-        private List<Character> characters;
+        private EventController eventController = new EventController();
 
         public MainView()
         {
             InitializeComponent();
             CenterToScreen();
             SetupDataGrids();
-            LoadFileComboBox();
-            LoadEventsFromExcel();
-            SetEventsView();
+            LoadView();
+        }
+
+        private void LoadView()
+        {
+            LoadFiles();
+            LoadEvents();
             LoadCharacters();
+            LoadFilterComboBox();
+        }
+
+        private void LoadFiles()
+        {
+            DisableFileComboBox();
+            var fileNames = eventController.GetExcelFileNames();
+            LoadFileComboBox(fileNames);
+        }
+
+        private void LoadEvents()
+        {
+            eventController.GetEventsFromExcel();
+            LoadEvents(eventController.Events);
+        }
+
+        private void LoadCharacters()
+        {
+            eventController.GetCharacters();
+        }
+
+        private void LoadFilterComboBox()
+        {
+            filterComboBox.DataSource = Enum.GetValues(typeof(EventType));
+            filterComboBox.SelectedIndexChanged += new EventHandler(this.filterComboBox_SelectedIndexChanged);
+        }
+
+        private void LoadCharacterAges()
+        {
+            DateTime? date = GetSelectedDate();
+
+            if (!date.HasValue)
+            {
+                return;
+            }
+
+            eventController.GetCharacterAges(date.Value);
+
+            // Clear grid
+            agesGridView.Rows.Clear();
+
+            foreach (var character in eventController.CharacterAges)
+            {
+                int rowIndex = agesGridView.Rows.Add(character.Name, character.Age);
+
+                if (character.IsDeceased)
+                {
+                    agesGridView.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Gray;
+                }
+            }
+
+            // Remove highlighted selection
+            agesGridView.ClearSelection();
         }
 
         private void SetupDataGrids()
@@ -41,21 +96,15 @@ namespace TimelineAssistant
             eventsGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
-        private void LoadFileComboBox()
+        public void DisableFileComboBox()
+        {
+            fileComboBox.SelectedIndexChanged -= new EventHandler(fileComboBox_SelectedIndexChanged);
+        }
+
+        public void LoadFileComboBox(List<string> fileNames)
         {
             try
             {
-                fileComboBox.SelectedIndexChanged -= new EventHandler(fileComboBox_SelectedIndexChanged);
-
-                var currentDirectory = Directory.GetCurrentDirectory();
-                string[] files = Directory.GetFiles(currentDirectory, "*.xlsx");
-
-                List<string> fileNames = new List<string>();
-                foreach (string file in files)
-                {
-                    fileNames.Add(Path.GetFileName(file).RemoveExcelExtension());
-                }
-
                 fileComboBox.DataSource = fileNames;
                 fileComboBox.SelectedItem = Settings.Default.ExcelFileName.RemoveExcelExtension();
 
@@ -67,46 +116,7 @@ namespace TimelineAssistant
             }
         }
 
-        private void LoadEventsFromExcel()
-        {
-            try
-            {
-                events = new List<Event>();
-
-                using (var package = new ExcelPackage(new FileInfo(Settings.Default.ExcelFileName)))
-                {
-                    var workSheet = package.Workbook.Worksheets.First();
-
-                    var start = workSheet.Dimension.Start;
-                    var end = workSheet.Dimension.End;
-
-                    for (int row = start.Row+1; row <= end.Row; row++)
-                    {
-                        try
-                        {
-                            events.Add(new Event
-                            {
-                                Date = workSheet.Cells[row, 1].Text.SanitiseDate(),
-                                Type = (EventType)Enum.Parse(typeof(EventType), workSheet.Cells[row, 2].Text),
-                                Description = workSheet.Cells[row, 3].Text,
-                                DisplayYearOnly = workSheet.Cells[row, 1].Text.DisplayYearOnly()
-                            });
-                        }
-                        catch (Exception ex)
-                        {
-                            // Skip
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ShowErrorMessage($"Error encountered when loading the Excel file:\n\n{ex.Message}");
-                Environment.Exit(0);
-            }
-        }
-
-        private void SetEventsView()
+        public void LoadEvents(List<Event> events)
         {
             try
             {
@@ -140,37 +150,7 @@ namespace TimelineAssistant
             }
         }
 
-        private void LoadCharacters()
-        {
-            try
-            {
-                characters = new List<Character>();
-
-                foreach (var eventItem in events.Where(x => x.Type == EventType.Birth))
-                {
-                    characters.Add(new Character
-                    {
-                        Name = eventItem.Description,
-                        DateOfBirth = eventItem.Date
-                    });
-                }
-
-                foreach (var character in characters)
-                {
-                    Event characterDeath = events.FirstOrDefault(x => x.Description == character.Name && x.Type == EventType.Death);
-                    if (characterDeath != null)
-                    {
-                        character.DateOfDeath = characterDeath.Date;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ShowErrorMessage($"Error encountered when loading Characters:\n\n{ex.Message}");
-            }
-        }
-
-        private void GetCharacterAges(DateTime date)
+        public void LoadCharacters(List<CharacterAge> characters)
         {
             try
             {
@@ -179,20 +159,11 @@ namespace TimelineAssistant
 
                 foreach (var character in characters)
                 {
-                    int age = date.Year - character.DateOfBirth.Year;
+                    int rowIndex = agesGridView.Rows.Add(character.Name, character.Age);
 
-                    // Handle months discrepancy
-                    if (character.DateOfBirth > date.AddYears(-age))
-                        age--;
-
-                    if (age >= 0)
+                    if (character.IsDeceased)
                     {
-                        int rowIndex = agesGridView.Rows.Add(character.Name, age);
-
-                        if (character.IsDeceased && character.DateOfDeath <= date)
-                        {
-                            agesGridView.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Gray;
-                        }
+                        agesGridView.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Gray;
                     }
                 }
 
@@ -210,7 +181,7 @@ namespace TimelineAssistant
             try
             {
                 DateTime date = searchYear.Text.SanitiseDate();
-                GetCharacterAges(date);
+                eventController.GetCharacterAges(date);
             }
             catch (Exception ex)
             {
@@ -218,7 +189,7 @@ namespace TimelineAssistant
             }
         }
 
-        private void ShowErrorMessage(string message)
+        public void ShowErrorMessage(string message)
         {
             MessageBox.Show(message, "Oops",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -228,15 +199,24 @@ namespace TimelineAssistant
         {
             try
             {
-                var selectedYear = eventsGridView.SelectedRows[0].Cells["Date"].Value;
-
-                DateTime date = selectedYear.ToString().SanitiseDate();
-                GetCharacterAges(date);
+                LoadCharacterAges();
             }
             catch (Exception ex)
             {
-                // Skip
+                ShowErrorMessage($"Error encountered when calculating character ages:\n\n{ex.Message}");
             }
+        }
+
+        private DateTime? GetSelectedDate()
+        {
+            if (eventsGridView.SelectedRows.Count == 0)
+            {
+                return null;
+            }
+
+            var selectedDate = eventsGridView.SelectedRows[0].Cells["Date"]?.Value;
+
+            return selectedDate.ToString().SanitiseDate();
         }
 
         private void openFileButton_Click(object sender, EventArgs e)
@@ -258,7 +238,7 @@ namespace TimelineAssistant
 
         private void filterComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SetEventsView();
+            ReloadData();
         }
 
         private void fileComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -278,9 +258,9 @@ namespace TimelineAssistant
 
         private void ReloadData()
         {
-            LoadEventsFromExcel();
+            LoadEvents();
             LoadCharacters();
-            SetEventsView();
+            LoadCharacterAges();
         }
     }
 }
