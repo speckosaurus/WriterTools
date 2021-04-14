@@ -56,9 +56,12 @@ namespace TimelineAssistant.Views
             filterComboBox.SelectedIndexChanged += new EventHandler(this.filterComboBox_SelectedIndexChanged);
         }
 
-        private void LoadCharacterAges()
+        private void LoadCharacterAges(DateTime? date = null)
         {
-            DateTime? date = GetSelectedDate();
+            if (date == null)
+            {
+                date = GetSelectedDate();
+            }
 
             if (!date.HasValue)
             {
@@ -181,7 +184,7 @@ namespace TimelineAssistant.Views
             try
             {
                 DateTime date = searchYear.Text.SanitiseDate();
-                eventController.GetCharacterAges(date);
+                LoadCharacterAges(date);
             }
             catch (Exception ex)
             {
